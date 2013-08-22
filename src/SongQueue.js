@@ -12,6 +12,10 @@ var SongQueue = Songs.extend({
       }
     });
     this.on('dequeue', this.remove);
+    this.on('enqueue', function() {
+      console.log('i should be adding');
+      this.add();
+    });
   },
   playFirst: function() {
     this.at(0).play();

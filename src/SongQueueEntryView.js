@@ -12,7 +12,6 @@ var SongQueueEntryView = Backbone.View.extend({
   },
 
   removeFromQueue: function() {
-    console.log("i'm getting clicked");
     this.model.dequeue();
   }
 
