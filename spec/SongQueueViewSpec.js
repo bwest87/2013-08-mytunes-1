@@ -5,7 +5,7 @@ describe('SongQueueView', function() {
     fakeSongs = new SongQueue([
       {
         artist: 'data',
-        url: '/test/testsong.mp3',
+        url: '/test/testsong1.mp3',
         title:'test song'
       },
       {
