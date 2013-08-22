@@ -12,12 +12,17 @@ var SongQueue = Songs.extend({
       }
     });
     this.on('dequeue', this.remove);
-    this.on('enqueue', function() {
-      console.log('i should be adding');
-      this.add();
-    });
+    this._meta = {};
   },
   playFirst: function() {
     this.at(0).play();
+    this.at(0).set('playCount', this.at(0).get('playCount')-1);
+  },
+  meta: function(prop, value) {
+    if(this._meta[prop] === undefined) {
+      this._meta[prop] = value;
+    } else {
+      return this._meta[prop];
+    }
   }
 });
