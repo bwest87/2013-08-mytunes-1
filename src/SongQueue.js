@@ -1,8 +1,12 @@
 var SongQueue = Songs.extend({
-  initialize: function(){
+  initialize: function(params){
     this.on('add', this.playFirst, this);
+    this.on('ended', this.remove(song));
   },
   playFirst: function() {
-    console.log("i'm getting called!");
+    if(this.length === 1) {
+      console.log("i'm still getting called");
+      this.at(0).play();
+    }
   }
 });
