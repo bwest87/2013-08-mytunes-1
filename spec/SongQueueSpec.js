@@ -24,61 +24,66 @@ describe('SongQueue', function() {
       it('plays it', function() {
         var songQueue = new SongQueue();
         songQueue.add(songData1);
+        console.log(songQueue);
+        expect(playSpy).toHaveBeenCalled();
+
+      });
+    });
+
+    describe('when it is not the only song in the song queue', function() {
+      it('does nothing', function() {
+        var songQueue = new SongQueue(songData1);
+        songQueue.add(songData2);
+        expect(playSpy).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('when a song ends', function() {
+    it('removes the song from the queue', function() {
+      var songQueue = new SongQueue([songData1, songData2]);
+      song2 = songQueue.at(1);
+      expect(songQueue.length).toEqual(2);
+      console.log(songQueue.at(0));
+      songQueue.at(0).trigger('ended');
+      expect(songQueue.length).toEqual(1);
+      expect(songQueue.at(0)).toEqual(song2);
+    });
+
+    describe('if there are any songs left in the queue', function() {
+      it('plays the first song in the queue', function() {
+        var songQueue = new SongQueue([songData1, songData2]);
+        songQueue.at(0).ended();
         expect(playSpy).toHaveBeenCalled();
       });
     });
 
-  //   describe('when it is not the only song in the song queue', function() {
-  //     it('does nothing', function() {
-  //       var songQueue = new SongQueue(songData1);
-  //       songQueue.add(songData2);
-  //       expect(playSpy).not.toHaveBeenCalled();
-  //     });
-  //   });
-  // });
+    describe('if there are no songs left in the queue', function() {
+      it('does nothing', function() {
+        var songQueue = new SongQueue(songData1);
+        songQueue.at(0).ended();
+        expect(playSpy).not.toHaveBeenCalled();
+      });
+    });
+  });
 
-  // describe('when a song ends', function() {
-  //   it('removes the song from the queue', function() {
-  //     var songQueue = new SongQueue([songData1, songData2]);
-  //     song2 = songQueue.at(1);
-  //     expect(songQueue.length).toEqual(2);
-  //     songQueue.at(0).trigger('ended');
-  //     expect(songQueue.length).toEqual(1);
-  //     expect(songQueue.at(0)).toEqual(song2);
-  //   });
+  describe('when a song is dequeued', function() {
+    it('removes the song', function() {
+      removeSpy = spyOn(SongQueue.prototype, 'remove').andCallThrough();
+      var songQueue = new SongQueue(songData1);
+      songQueue.add(songData2);
+      songQueue.at(0).dequeue();
+      expect(removeSpy).toHaveBeenCalled();
+      expect(songQueue.length).toEqual(1);
+    });
+  });
 
-  //   describe('if there are any songs left in the queue', function() {
-  //     it('plays the first song in the queue', function() {
-  //       var songQueue = new SongQueue([songData1, songData2]);
-  //       songQueue.at(0).ended();
-  //       expect(playSpy).toHaveBeenCalled();
-  //     });
-  //   });
-
-  //   describe('if there are no songs left in the queue', function() {
-  //     it('does nothing', function() {
-  //       var songQueue = new SongQueue(songData1);
-  //       songQueue.at(0).ended();
-  //       expect(playSpy).not.toHaveBeenCalled();
-  //     });
-  //   });
-  // });
-
-  // describe('when a song is dequeued', function() {
-  //   it('removes the song', function() {
-  //     removeSpy = spyOn(SongQueue.prototype, 'remove').andCallThrough();
-  //     var songQueue = new SongQueue(songData1);
-  //     songQueue.at(0).dequeue();
-  //     expect(removeSpy).toHaveBeenCalled();
-  //   });
-  // });
-
-  // describe('playFirst', function() {
-  //   it('plays the first song in the queue', function() {
-  //     spyOn(Song.prototype, 'play').andCallThrough();
-  //     var songQueue = new SongQueue(songData1);
-  //     songQueue.playFirst();
-  //     expect(songQueue.at(0).play).toHaveBeenCalled();
-  //   });
+  describe('playFirst', function() {
+    it('plays the first song in the queue', function() {
+      spyOn(Song.prototype, 'play').andCallThrough();
+      var songQueue = new SongQueue(songData1);
+      songQueue.playFirst();
+      expect(songQueue.at(0).play).toHaveBeenCalled();
+    });
   });
 });
