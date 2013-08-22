@@ -7,9 +7,9 @@ var SongQueue = Songs.extend({
     } , this);
     this.on('ended', function() {
       this.shift();
-      if(this.length === 1) {
+      // if(this.length === 1) {
         this.playFirst();
-      }
+      // }
     });
     this.on('dequeue', this.remove);
     this._meta = {};
