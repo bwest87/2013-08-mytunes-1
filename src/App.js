@@ -19,6 +19,7 @@ var App = Backbone.Model.extend({
       this.get(name).meta('name', name);
       $('body').append(new SongQueueView({collection: this.get(name)}).render());
     }, this);
+    // var newRouter = new newRouter();
   }
 
   //use select tag to easily add to a given queue
