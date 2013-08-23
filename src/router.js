@@ -1,7 +1,7 @@
 var Router = Backbone.Router.extend({
   routes: {
-    "testing" : "testing",
-    ":title" : "playSongUrl"
+    "song/:title" : "playSongUrl",
+    "queue/:qName": "showQueue"
   },
   initialize: function(){
     // set up model objects
@@ -20,5 +20,8 @@ var Router = Backbone.Router.extend({
   },
   playSongUrl: function(title) {
     this.library.where({'title' : title})[0].play();
+  },
+  showQueue: function() {
+    
   }
 });
